@@ -25,15 +25,14 @@
    ● 개발 OS: Windows, MacOS  
    ● DBMS: Oracle 11g  
    ● Web: HTML5, CSS, JavaScript, jQUery, AJAX  
-   ● 개발도구: Eclipse 4.26.0, VisualStudio 1.76.1  
+   ● 개발도구: Eclipse 4.26.0, Visual Studio Code 1.76.1  
    ● 웹서버: Apache Tomcat 9.0  
    ● 데이터베이스 툴 및 모델링 : SQL Developer, eXERD  
    ● 개발 언어 : Java11  
-   ● 프레임워크: Spring FrameWork 5.3.25, Springboot 5.7.6, Spring Data  
-    , JPA 5.7.6  
+   ● 프레임워크: Spring FrameWork 5.3.25, Springboot 5.7.6, Spring-Data JPA 5.7.6  
    ● 협업관리 툴: github  
    ● 프로젝트관리 툴: Notion  
-   팀 구성: pm 1명, 팀원 4명  
+   ● 팀 구성: pm 1명, 팀원 4명  
      
    ### 요구사항  
    1.리뷰  
