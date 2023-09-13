@@ -175,7 +175,7 @@ public class ReviewService {
         	return new ResponseDetails("베스트리뷰는 수정할 수 없습니다.",500,path);
         } else if (!(review.getUser().getId().equals(username))) {
         	throw new AddException(ErrorCode.BAD_REQUEST,"NOT_EQUAL_REVIEWER");
-        } else if(updateDto.getContent().length()>200) {
+        } else if(updateDto.getContent().length()>500) {
         	throw new AddException(ErrorCode.BAD_REQUEST, "EXCEED_MAX_CHAR");
         }
         review.update(updateDto.getTitle(), updateDto.getContent());
