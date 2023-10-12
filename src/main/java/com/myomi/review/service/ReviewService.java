@@ -104,31 +104,35 @@ public class ReviewService {
 
 
     @Transactional
-    public ResponseEntity<?> addReview(ReviewSaveRequestDto reviewSaveDto, Authentication user
+    public ResponseDetails addReview(ReviewSaveRequestDto reviewSaveDto, Authentication user
     ) throws IOException {
-
+    	String path = "/mypage/review/add";
         String username = user.getName();
         Optional<User> optU = userRepository.findById(username);
         OrderDetailEmbedded ode = OrderDetailEmbedded.builder().orderNum(reviewSaveDto.getOrderNum())
                 .prodNum(reviewSaveDto.getProdNum()).build();
         Optional<OrderDetail> od = orderdetailRepository.findById(ode);
-        MultipartFile file = reviewSaveDto.getFile();
-        if (file != null) {
-            InputStream inputStream = file.getInputStream();
-            boolean isValid = FileUtils.validImgFile(inputStream);
-            if (!isValid) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            String fileUrl = s3Uploader.upload(file, "리뷰이미지", user, reviewSaveDto);
-           
-            Review review = reviewSaveDto.toEntity(reviewSaveDto, optU.get(), od.get(), fileUrl);
+        Optional<Review> Optr =reviewRepository.findReviewByOrderNumAndProdNum(reviewSaveDto.getOrderNum(),reviewSaveDto.getProdNum());
+        if(Optr.isPresent()) {
+        	return new ResponseDetails("이미 존재하는 리뷰입니다.",500,path);
+        }else {
+            MultipartFile file = reviewSaveDto.getFile();
+            if (file != null) {
+                InputStream inputStream = file.getInputStream();
+                boolean isValid = FileUtils.validImgFile(inputStream);
+                if (!isValid) {
+                	 return new ResponseDetails("파일 형식이 유효하지 않습니다.",500,path);
+                }
+                String fileUrl = s3Uploader.upload(file, "리뷰이미지", user, reviewSaveDto);
+               
+                Review review = reviewSaveDto.toEntity(reviewSaveDto, optU.get(), od.get(), fileUrl);
+                	reviewRepository.save(review);
+            }else{
+            	Review review = reviewSaveDto.toEntity(reviewSaveDto, optU.get(), od.get(), null);
             	reviewRepository.save(review);
-        }else{
-        	Review review = reviewSaveDto.toEntity(reviewSaveDto, optU.get(), od.get(), null);
-        	reviewRepository.save(review);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-
+            }
+            return new ResponseDetails(reviewSaveDto, 200, path);
+        	}
         }
     
     
