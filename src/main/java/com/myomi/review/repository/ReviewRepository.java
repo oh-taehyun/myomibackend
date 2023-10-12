@@ -36,4 +36,7 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     @Query(value = "select distinct r.* from review r, orders_detail od,best_review b where r.prod_num = od.prod_num\n"
             + " and r.num=b.review_num and r.prod_num = ?", nativeQuery = true)
     public List<Review>findAllBestReviewByProd(Long prodNum);
+
+    @Query(value = "select r.* from review r join orders_detail od on r.order_num=od.order_num and r.prod_num=od.prod_num where r.order_num=? and r.prod_num=?",nativeQuery=true)
+    public Optional<Review> findReviewByOrderNumAndProdNum(Long orderNum, Long prodNum);
 }
