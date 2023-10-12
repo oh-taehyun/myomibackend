@@ -72,7 +72,14 @@
 //			
 //			rr.save(review);
 //	}
-//	
+//
+//	@Test
+//	  void testReviewFindByOrderNumAndProdNum() {
+//	     Optional<Review> optR = rr.findReviewByOrderNumAndProdNum(49L, 25L);
+//	     assertTrue(optR.isPresent());
+//	 	String expectedContent = "맛있다니까요";
+//		assertEquals(expectedContent, optR.get().getContent());
+//	  }
 //	@Test
 //  void testReviewFindById() {
 //     Optional<Review> optR = rr.findById(1L);
