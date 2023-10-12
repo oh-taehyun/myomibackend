@@ -50,12 +50,10 @@ public class ReviewController {
     }
 
     //리뷰작성
-    @PostMapping("/mypage/review/add")
-    public ResponseEntity<?> reviewsave(ReviewSaveRequestDto reviewSaveDto,
-                                        Authentication user
-            , MultipartFile file, Long orderNum, Long prodNum,
-                                        String title, String content, float stars,int sort
-
+       @PostMapping("/mypage/review/add")
+    public ResponseEntity<?> reviewsave(Authentication user,
+            MultipartFile file, Long orderNum, Long prodNum,
+            String title, String content, float stars,int sort
     ) throws IOException {
         ReviewSaveRequestDto dto = ReviewSaveRequestDto.builder()
                 .prodNum(prodNum)
@@ -66,7 +64,8 @@ public class ReviewController {
                 .file(file)
                 .sort(sort)
                 .build();
-        return new ResponseEntity<>(service.addReview(dto, user), HttpStatus.OK);
+        ResponseDetails responseDetails=service.addReview(dto, user);
+        return new ResponseEntity<>(responseDetails, HttpStatus.valueOf(responseDetails.getHttpStatus()));
     }
 
     //판매자리뷰선정
